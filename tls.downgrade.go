@@ -9,9 +9,9 @@ import (
 	"github.com/bettercap/bettercap/session"
 
 	"github.com/chifflier/nfqueue-go/nfqueue"
+	"github.com/evilsocket/islazy/tui"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
-	"github.com/evilsocket/islazy/tui"
 )
 
 var (
