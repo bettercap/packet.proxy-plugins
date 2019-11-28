@@ -4,7 +4,6 @@ import (
 	"net"
 	"regexp"
 
-	"github.com/bettercap/bettercap/core"
 	"github.com/bettercap/bettercap/log"
 	"github.com/bettercap/bettercap/packets"
 	"github.com/bettercap/bettercap/session"
@@ -12,6 +11,7 @@ import (
 	"github.com/chifflier/nfqueue-go/nfqueue"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
+	"github.com/evilsocket/islazy/tui"
 )
 
 var (
@@ -78,7 +78,7 @@ func OnPacket(payload *nfqueue.Payload) int {
 		packet := gopacket.NewPacket(payload.Data, layers.LayerTypeIPv4, gopacket.Default)
 		ip, tcp, ok := getLayers(packet)
 		if ip != nil && tcp != nil && ok == true {
-			log.Warning("[%s] Dropping TLS ClientHello from %s to %s:%d", core.Green("tls.downgrade"), ip.SrcIP.String(), ip.DstIP.String(), tcp.DstPort)
+			log.Warning("[%s] Dropping TLS ClientHello from %s to %s:%d", tui.Green("tls.downgrade"), ip.SrcIP.String(), ip.DstIP.String(), tcp.DstPort)
 
 			if err, raw := tcpReset(ip.SrcIP, ip.DstIP, tcp.SrcPort, tcp.DstPort, tcp.Seq, tcp.Ack); err == nil {
 				if err := session.I.Queue.Send(raw); err != nil {
